@@ -1,12 +1,12 @@
 # Neon City Gaming 🌆
 
-A modern, responsive, GTA-inspired cyberpunk gaming website frontend. Featuring dark neon aesthetics, an ambient music toggle, custom AI-generated backgrounds and avatars, and full page structures (Landing, About, Login, Register, Dashboard).
+A modern, responsive, GTA-inspired cyberpunk gaming website. Featuring dark neon aesthetics, an ambient music toggle, custom AI-generated backgrounds, and full page structures (Landing, About, Login, Register, Dashboard) powered by **Firebase**.
 
 ## 📖 Project Description
 
-Neon City Gaming is built to simulate the frontend experience of a modern web-based gaming hub. It is heavily inspired by the neon-lit, gritty, action-packed aesthetics popularized by the Cyberpunk genre and the Grand Theft Auto series. 
+Neon City Gaming is an immersive frontend experience for a modern web-based gaming hub. It is heavily inspired by the neon-lit, gritty aesthetics popularized by the Cyberpunk genre and the Grand Theft Auto series.
 
-The project operates as a **Single Page Application (SPA)** using pure Vanilla JavaScript to handle dynamic page switching without ever reloading the browser window. It comes fully equipped with a functional client-side mock authentication system. This means that users can register an account, visually track password strength, receive validation feedback, log into the portal, and unlock a secure dashboard—all running locally in your browser memory natively.
+The project operates as a **Single Page Application (SPA)** using Vanilla JavaScript to handle dynamic page switching. It is fully integrated with **Firebase** for cloud-based authentication and persistent data storage. Users can register, log in (including Google OAuth), and track their progression stats (Level, Coins, Missions) which are saved securely in **Google Cloud Firestore**.
 
 ---
 
@@ -24,81 +24,83 @@ graph TD
     Nav --> Lock[Toggle Background Music]
     
     Nav --> Reg(Register Account)
-    Reg --> RegVal{Validation Engine}
-    RegVal -- "Weak/Mismatch" --> Reg(Return Error)
-    RegVal -- "Valid" --> Store[(localStorage DB Sandbox)]
-    Store --> Login
+    Reg --> FirebaseRef{Firebase Auth}
+    FirebaseRef -- "Email/Pass" --> DBAuth[(Cloud Firestore)]
+    FirebaseRef -- "Google OAuth" --> DBAuth
     
     Nav --> Login(Terminal Login)
     Login --> LoginAuth{Authentication Check}
-    LoginAuth -- "Wrong Credentials" --> Login(Return Error)
-    LoginAuth -- "Valid User Found" --> DBAuth[(Match w/ localStorage)]
+    LoginAuth -- "Validate" --> FirebaseRef
     
     DBAuth --> Dashboard(Dashboard - Access Granted)
     
-    Dashboard --> UserDetails[View Profile & Cyberpunk Avatar]
-    Dashboard --> Stats[Check Progression Stats: Lv, Coins, Missions]
+    Dashboard --> UserDetails[View Profile & Avatar]
+    Dashboard --> Stats[Real-time Progression: Lv, Coins, Missions]
     Dashboard --> Actions[Interact with Gameplay Buttons]
     
     Dashboard --> Logout(Logout Event)
-    Logout --> ClearStore[Clear Session State]
-    ClearStore --> Home
+    Logout --> SignOut[Firebase SignOut]
+    SignOut --> Home
 ```
 
 ### Flow Breakdown:
-1. **Initialization:** The browser loads `index.html`. A loader ring is visible for 1.5 seconds while assets prep behind the scenes.
-2. **Navigation:** The user clicks navigation links (`nav-link`). The JavaScript intercepts these clicks (preventDefault), hides the currently active section, and adds `.active` to the targeted display section.
-3. **Registration:** When a user types in their password, a real-time JS event triggers listening to string values, adjusting the CSS width and color of the strength bar. On successful submit, the credentials are encapsulated in a JSON object and cached into the browser's persistent `localStorage`.
-4. **Authentication:** The terminal login intercepts the submitted form username/email. Next, it reaches into the LocalStorage cache. If the identity exists and matches the password cipher, it toggles the DOM layout to hide Login/Register tabs and unlocks the Dashboard and Logout buttons.
-5. **Dashboard Interaction:** Serves as the central hub where the simulated stats are drawn, proving the user successfully verified terminal access.
+1. **Initialization:** The browser loads `index.html`. A loader ring is visible while Firebase SDKs initialize and check for existing auth sessions.
+2. **Navigation:** The JavaScript intercepts menu clicks, hides active sections, and reveals the targeted page without reloading.
+3. **Registration/Login:** User credentials are processed via `firebase/auth`. On registration, a new profile document is automatically created in `firebase/firestore`.
+4. **Data Persistence:** Unlike simple mockups, all player stats are saved in the cloud. Refreshing the page keeps you logged in and preserves your "Street Cred."
+5. **Dashboard Interaction:** Serves as the central hub where user data is pulled dynamically from Firestore in real-time.
 
 ---
 
 ## 🚀 Features
 
 - **Immersive Cyberpunk Theme**: Dark mode styled using glowing CSS neon aesthetics (`#ff007f`, `#00f0ff`, `#b537f2`).
-- **Single Page Application Flow**: Smooth transitions between the Landing, About, Login, Register, and Dashboard sections using Vanilla JavaScript logic.
-- **Client-side Authentication Simulator**: Test run the entire flow! Contains a mock database using `localStorage` to simulate account creation and user login.
-- **Dynamic Register Screen**: Includes an interactive password strength indicator and form validation for matching passwords.
-- **Dashboard Hub**: Displays mock user information, player rank, stats (Level, Coins, Missions), and game action buttons.
+- **Real Backend Integration**: Uses **Firebase Authentication** for secure login and **Cloud Firestore** for data persistence.
+- **Social Login**: Integrated Google Sign-In for quick access to the underground network.
+- **Dynamic Dashboard**: Displays live user information, player rank, and stats (Level, Coins, Missions) fetched from the cloud.
+- **Password Security**: Includes a real-time password strength indicator during registration.
 - **Audio Experience**: Embedded ambient background music with an interactive Navbar toggle for immersion.
 
 ## 🛠️ Tech Stack 
 
-- **HTML5**: Semantic layout.
-- **CSS3**: Custom CSS variables, Flexbox/Grid for mobile responsiveness, keyframe animations, glowing box-shadows, and glassmorphism (backdrop filters).
-- **JavaScript (Vanilla)**: DOM manipulation, mock state management (`localStorage`), and basic password evaluation logic.
+- **Frontend**: HTML5, CSS3 (Custom variables, Flexbox/Grid, Animations).
+- **Logic**: JavaScript (Vanilla ES6 Modules).
+- **Backend-as-a-Service**: 
+    - **Firebase Auth**: User management and OAuth.
+    - **Cloud Firestore**: NoSQL Database for user stats.
+    - **Firebase Analytics**: Interaction tracking.
 
 ## 💻 Local Setup & Run 
 
-This project requires zero backend dependencies, framework installations, or compilations!
+Because this project uses ES6 Modules (`type="module"`), it must be served via a web server to avoid CORS issues.
 
-1. Clone or extract this project folder to your machine.
-2. Navigate to the directory containing the project files.
-3. Simply double-click `index.html` to open it in your default web browser (Chrome, Edge, Firefox, Brave).
-   - Alternatively, open the folder in an editor like VS Code and use the **Live Server** extension for a more seamless development experience.
+1. Clone or extract this project folder.
+2. Open the folder in VS Code.
+3. Use the **Live Server** extension (right-click `index.html` -> "Open with Live Server").
+4. Alternatively, use any local server:
+   ```bash
+   npx serve .
+   ```
 
 ## 📁 Project Structure
 
 ```text
-noen_game/
-├── assets/
-│   ├── avatar.png          # Generated visual for dashboard profile
-│   └── hero_bg.png         # Generated immersive background image
-├── index.html              # The core HTML application & templates 
-├── script.js               # Frontend UI logic, auth logic & routing
+Neon_City_Gaming/
+├── firebase-config.js      # Firebase SDK initialization and credentials
+├── index.html              # Core HTML structure and page templates
+├── script.js               # Frontend UI logic, Auth, and Firestore interactions
 ├── style.css               # Implementation of the complete cyberpunk theme
 └── README.md               # Documentation and project details
 ```
 
 ### Breakdowns
-- **`index.html`**: The core application container, featuring the nested templates for all pages.
-- **`style.css`**: Contains the entire cyberpunk styling system.
-- **`script.js`**: Handles all the frontend UI interactions, form validations, and routing logic.
-- **`assets/`**: Contains custom image art (the city background and the profile avatar).
+- **`firebase-config.js`**: Centralized configuration for connecting to the Google Cloud backend.
+- **`index.html`**: The single-page container hosting all application views.
+- **`style.css`**: The design system, animations, and neon styling.
+- **`script.js`**: The main controller handling navigation, authentication, and state management.
 
 ## 🎨 UI Preview Highlights
 
-- **Glitch & Glow Elements**: Title fonts and interactive buttons utilize layered `box-shadow` and `text-shadow` for that futuristic action feel.
-- **Loader Animation**: Custom spinning CSS loader built with borders on initialization to match the UI scheme.
+- **Glitch & Glow Elements**: Title fonts and interactive buttons utilize layered `box-shadow` and `text-shadow`.
+- **Loader Animation**: Custom spinning CSS loader built with borders on initialization.
 - **Stats Grid**: Dashboard items neatly showcased using a responsive CSS Grid.
