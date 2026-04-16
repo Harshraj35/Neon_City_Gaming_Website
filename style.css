@@ -546,3 +546,122 @@ h1, h2, h3, h4 {
     100% { opacity: 0; transform: translateX(40px); visibility: hidden; }
 }
 
+/* Effect Pages Styling */
+.effect-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    min-height: calc(100vh - 80px);
+    background: radial-gradient(circle at center, rgba(15, 15, 20, 0.8), #000);
+}
+
+.terminal-container {
+    width: 90%;
+    max-width: 700px;
+    background: #0a0a0a;
+    border: 2px solid var(--neon-blue);
+    border-radius: 4px;
+    box-shadow: 0 0 50px rgba(0, 240, 255, 0.2);
+    padding: 40px;
+    position: relative;
+}
+
+.terminal-header {
+    border-bottom: 2px solid var(--neon-blue);
+    margin: -40px -40px 30px -40px;
+    padding: 12px 25px;
+    font-size: 14px;
+    background: rgba(0, 240, 255, 0.1);
+    color: var(--neon-blue);
+    display: flex;
+    justify-content: space-between;
+}
+
+.terminal-header::after { content: 'SYNC_ACTIVE'; color: var(--neon-blue); opacity: 0.7; }
+
+.terminal-body {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    line-height: 1.8;
+}
+
+.terminal-body p { margin: 10px 0; }
+
+.garage-visual {
+    text-align: center;
+}
+
+.car-outline {
+    font-size: 180px;
+    margin-bottom: 30px;
+    animation: carPulse 2s infinite;
+    display: block;
+}
+
+.scanning-bar {
+    width: 350px;
+    height: 4px;
+    background: var(--neon-blue);
+    margin: 30px auto;
+    position: relative;
+    overflow: hidden;
+    box-shadow: 0 0 15px var(--neon-blue);
+}
+
+.scanning-bar::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: -100px;
+    width: 150px;
+    height: 100%;
+    background: linear-gradient(to right, transparent, #fff, transparent);
+    animation: scanLine 2s linear infinite;
+}
+
+.market-container {
+    text-align: center;
+    background: rgba(255, 0, 127, 0.05);
+    padding: 60px;
+    border: 2px dashed var(--neon-pink);
+    border-radius: 12px;
+    max-width: 600px;
+}
+
+.market-items {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-top: 40px;
+}
+
+.market-item {
+    display: flex;
+    justify-content: space-between;
+    padding: 20px;
+    background: rgba(0, 0, 0, 0.7);
+    border-left: 5px solid var(--neon-pink);
+    font-weight: 700;
+    font-size: 1.1rem;
+    transition: all 0.3s;
+}
+
+.market-item:hover {
+    background: rgba(255, 0, 127, 0.1);
+    transform: scale(1.02);
+}
+
+/* Effect Animations */
+@keyframes scanLine {
+    0% { transform: translateX(-150px); }
+    100% { transform: translateX(500px); }
+}
+
+@keyframes carPulse {
+    0% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.3)); }
+    50% { transform: scale(1.05); filter: drop-shadow(0 0 40px rgba(0, 240, 255, 0.8)); }
+    100% { transform: scale(1); filter: drop-shadow(0 0 10px rgba(0, 240, 255, 0.3)); }
+}
+
+

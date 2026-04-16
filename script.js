@@ -309,6 +309,7 @@ document.addEventListener('DOMContentLoaded', () => {
                 
                 showNotification("MISSION COMPLETE! EARNED 5,000 COINS.", "success");
                 await fetchUserData(auth.currentUser.uid);
+                navigateTo('mission-effect-page');
             } catch (error) {
                 console.error("Mission failed:", error);
                 showNotification("NEURAL LINK ERROR!", "danger");
@@ -321,7 +322,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (garageBtn) {
         garageBtn.addEventListener('click', () => {
-            showNotification("GARAGE ACCESS DENIED: REPUTATION TOO LOW.", "warning");
+            showNotification("SYNCING GARAGE DATA...", "success");
+            navigateTo('garage-effect-page');
         });
     }
 
@@ -340,6 +342,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                     showNotification("PURCHASED ILLEGAL MODS. -10,000 COINS.", "danger");
                     await fetchUserData(auth.currentUser.uid);
+                    navigateTo('market-effect-page');
                 } catch (error) {
                     showNotification("TRANSACTION FAILED.", "danger");
                 }
