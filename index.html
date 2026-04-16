@@ -6,6 +6,19 @@
     <title>Neon City Gaming</title>
     <!-- Modern Cyberpunk Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
+    
+    <!-- Firebase Import Map for SDKs -->
+    <script type="importmap">
+        {
+            "imports": {
+                "firebase/app": "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js",
+                "firebase/analytics": "https://www.gstatic.com/firebasejs/10.12.0/firebase-analytics.js",
+                "firebase/auth": "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js",
+                "firebase/firestore": "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"
+            }
+        }
+    </script>
+    
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
@@ -51,9 +64,31 @@
 
         <!-- About Page -->
         <section id="about-page" class="page">
-            <div class="container text-center vh-100 flex-center">
-                <h1 class="neon-text">ABOUT THE CITY</h1>
-                <p>Welcome to the ultimate cyberpunk playground.</p>
+            <div class="container about-container">
+                <div class="about-content">
+                    <h1 class="neon-text text-center glitch-text" style="font-size: 3rem;" data-text="ABOUT THE CITY">ABOUT THE CITY</h1>
+                    <p class="text-center lead-text mt-4">Welcome to Neon City, the ultimate cyberpunk playground where only the strong survive. Build your empire, race through neon-lit streets, and conquer the underground.</p>
+                    
+                    <div class="features-grid mt-4">
+                        <div class="feature-card">
+                            <h3 class="neon-blue">EXPLORE</h3>
+                            <p>Dive into a sprawling metropolis filled with secrets, hidden missions, and endless possibilities.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3 class="neon-pink">BATTLE</h3>
+                            <p>Engage in high-stakes gang wars and tactical shootouts to climb the ranks of the underworld.</p>
+                        </div>
+                        <div class="feature-card">
+                            <h3 class="neon-yellow">CUSTOMIZE</h3>
+                            <p>Modify your vehicles, upgrade your weapons, and tailor your character's look with futuristic gear.</p>
+                        </div>
+                    </div>
+                    
+                    <div class="about-footer text-center mt-4" style="margin-top: 4rem;">
+                        <h2 class="neon-text" style="font-size: 24px; margin-bottom: 20px;">JOIN THE REVOLUTION</h2>
+                        <button class="btn-neon large switch-page" data-target="register-page">INITIALIZE PROTOCOL</button>
+                    </div>
+                </div>
             </div>
         </section>
 
@@ -152,6 +187,10 @@
         </section>
     </main>
 
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js"></script>
+    <script type="module" src="firebase-config.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
